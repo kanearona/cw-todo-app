@@ -3,7 +3,7 @@
   become: true
   vars:
     aws_region: us-east-1
-    ecr_registry: 331464115630.dkr.ecr.us-east-1.amazonaws.com
+    ecr_registry: 046402772087.dkr.ecr.us-east-1.amazonaws.com
   tasks:
     - name: update all packages
       yum:
@@ -85,13 +85,12 @@
         export PATH=/usr/local/bin:$PATH
         source ~/.bash_profile
         aws ecr get-login-password --region {{ aws_region }} | docker login --username AWS --password-stdin {{ ecr_registry }}
-
 - name: postgre database config
   hosts: _ansible_postgresql
   become: true
   vars:
     postgre_container: /home/ec2-user/postgresql
-    container_name: postgre
+    container_name: aduncan_postgre
     image_name: 046402772087.dkr.ecr.us-east-1.amazonaws.com/claruswayad-repo/cw-todo-app:postgr
   tasks:
     - name: remove {{ container_name }} container and {{ image_name }} if exists
@@ -133,7 +132,7 @@
   become: true
   vars:
     container_path: /home/ec2-user/react
-    container_name: react
+    container_name: aduncan_react
     image_name: 046402772087.dkr.ecr.us-east-1.amazonaws.com/claruswayad-repo/cw-todo-app:react
   tasks:
     - name: remove {{ container_name }} container and {{ image_name }} image if exists
